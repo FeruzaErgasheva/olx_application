@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:olx_application/model/main_model.dart';
+import 'package:olx_application/model/products_model.dart';
 import 'package:olx_application/pages/galereya_page.dart';
 import 'package:olx_application/pages/list_wiev_page.dart';
+import 'package:olx_application/widgets/text_field.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,27 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentPageIndex = 1;
 
+  List<Model> _foundedModels = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _foundedModels = contents;
+  }
+
+  void onSearch(String search) {
+    setState(() {
+      _foundedModels = contents
+          .where(
+            (element) => element.title.toLowerCase().contains(
+                  search.toLowerCase(),
+                ),
+          )
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +44,9 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
         child: Column(
           children: [
+            MySearchField(
+              onSearch: onSearch,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -137,28 +162,28 @@ class _HomePageState extends State<HomePage> {
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: 20);
                       },
-                      itemCount: contents.length,
+                      itemCount: _foundedModels.length,
                       itemBuilder: (context, index) {
                         if (_currentPageIndex == 1) {
                           return GalereySection(
-                            imgUrl: contents[index].imgUrl,
-                            checkTop: contents[index].checkTop,
-                            title: contents[index].title,
-                            price: contents[index].price,
-                            checkStatus: contents[index].checkStatus,
-                            location: contents[index].location,
-                            time: contents[index].time,
+                            imgUrl: _foundedModels[index].imgUrl,
+                            checkTop: _foundedModels[index].checkTop,
+                            title: _foundedModels[index].title,
+                            price: _foundedModels[index].price,
+                            checkStatus: _foundedModels[index].checkStatus,
+                            location: _foundedModels[index].location,
+                            time: _foundedModels[index].time,
                             heightImg: 250,
                           );
                         } else if (_currentPageIndex == 2) {
                           return ListViewSection(
-                            imgUrl: contents[index].imgUrl,
-                            checkTop: contents[index].checkTop,
-                            title: contents[index].title,
-                            price: contents[index].price,
-                            checkStatus: contents[index].checkStatus,
-                            location: contents[index].location,
-                            time: contents[index].time,
+                            imgUrl: _foundedModels[index].imgUrl,
+                            checkTop: _foundedModels[index].checkTop,
+                            title: _foundedModels[index].title,
+                            price: _foundedModels[index].price,
+                            checkStatus: _foundedModels[index].checkStatus,
+                            location: _foundedModels[index].location,
+                            time: _foundedModels[index].time,
                           );
                         }
                       },
@@ -171,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisCount: 2,
                         mainAxisExtent: 380.0,
                       ),
-                      itemCount: contents.length,
+                      itemCount: _foundedModels.length,
                       itemBuilder: (context, index) {
                         return GalereySection(
                           imgUrl: contents[index].imgUrl,

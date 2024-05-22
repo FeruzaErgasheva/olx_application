@@ -32,7 +32,7 @@ List<Model> contents = [
     imgUrl:
         "https://frankfurt.apollo.olxcdn.com/v1/files/zxwm4m63dl6z1-UZ/image;s=1000x700",
     checkTop: true,
-    title: " Krossovka nike",
+    title: "Krossovka nike",
     price: "900 000 сум",
     checkStatus: true,
     location: "Ташкент, Учтепинский район",
